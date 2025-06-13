@@ -1,0 +1,135 @@
+/* Layout Components */
+
+/* Navigation */
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--spacing-sm) var(--spacing-lg);
+	background-color: var(--overlay-bg);
+	border-bottom: 1px solid var(--border-color);
+	margin-bottom: var(--spacing-lg);
+}
+
+.nav-brand h1 {
+	margin: 0;
+	color: var(--primary-color);
+	font-size: 1.8rem;
+}
+
+.nav-links {
+	display: flex;
+	gap: var(--spacing-lg);
+}
+
+.nav-links a {
+	text-decoration: none;
+	color: var(--text-light);
+	font-weight: var(--font-weight-medium);
+	transition: color var(--transition-normal);
+}
+
+.nav-links a:hover,
+.nav-links a.router-link-active {
+	color: var(--primary-color);
+}
+
+/* Main content area */
+.main-content {
+	min-height: auto;
+	padding: 0 var(--spacing-lg);
+}
+
+/* Footer */
+.footer {
+	margin-top: var(--spacing-lg);
+	padding: var(--spacing-lg);
+	text-align: center;
+	border-top: 1px solid var(--border-color);
+	color: var(--text-muted);
+}
+
+/* Card component */
+.card {
+	padding: var(--spacing-lg);
+	background: var(--overlay-bg);
+	border-radius: var(--border-radius-lg);
+	border: 1px solid var(--border-color);
+}
+
+/* Modal components */
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	padding: var(--spacing-lg);
+}
+
+.modal-content {
+	background: var(--background-dark);
+	border-radius: var(--border-radius-lg);
+	max-width: 90vw;
+	max-height: 90vh;
+	overflow: auto;
+	border: 1px solid var(--border-color);
+}
+
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: var(--spacing-md);
+	border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+	color: var(--primary-color);
+	margin: 0;
+}
+
+.modal-body {
+	padding: var(--spacing-md);
+}
+
+.close-btn {
+	background: none;
+	border: none;
+	font-size: 1.2rem;
+	cursor: pointer;
+	opacity: 0.7;
+	transition: opacity var(--transition-normal);
+}
+
+.close-btn:hover {
+	opacity: 1;
+}
+
+/* Responsive navigation */
+@media (max-width: 768px) {
+	.navbar {
+		flex-direction: column;
+		gap: var(--spacing-sm);
+		text-align: center;
+	}
+	
+	.nav-links {
+		flex-direction: column;
+		gap: var(--spacing-sm);
+	}
+	
+	.main-content {
+		padding: 0 var(--spacing-sm);
+	}
+	
+	.modal-content {
+		margin: var(--spacing-sm);
+		max-width: calc(100vw - 2rem);
+	}
+}

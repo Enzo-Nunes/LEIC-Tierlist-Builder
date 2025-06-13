@@ -1,25 +1,31 @@
 {
   "name": "leic-tierlist",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "A Vue.js website for creating and sharing tierlists",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
   },
   "dependencies": {
-    "next": "14.0.0",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-beautiful-dnd": "^13.1.1"
+    "pinia": "^2.1.7",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.0.0",
-    "typescript": "^5"
-  }
+    "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.22.0",
+    "prettier": "^3.5.3",
+    "vite": "^5.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enzo-Nunes/LEIC-Tierlist.git"
+  },
+  "homepage": "https://enzo-nunes.github.io/LEIC-Tierlist/"
 }

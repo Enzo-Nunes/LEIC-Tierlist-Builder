@@ -1,0 +1,19 @@
+/* Import organized styles */
+@import './styles/globals.css';
+@import './styles/layout.css';
+
+/* Component styles */
+@import './styles/components/buttons.css';
+@import './styles/components/forms.css';
+@import './styles/components/tierlist.css';
+@import './styles/components/modal.css';
+@import './styles/components/tables.css';
+@import './styles/components/cards.css';
+
+/* Page styles */
+@import './styles/pages/home.css';
+@import './styles/pages/create.css';
+@import './styles/pages/browse.css';
+
+/* Utilities */
+@import './styles/utilities.css';

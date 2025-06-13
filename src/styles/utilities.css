@@ -1,0 +1,81 @@
+/* Utility Classes */
+
+/* Text utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-primary { color: var(--primary-color); }
+.text-muted { color: var(--text-muted); }
+
+.font-bold { font-weight: var(--font-weight-bold); }
+.font-medium { font-weight: var(--font-weight-medium); }
+
+/* Spacing utilities */
+.m-0 { margin: 0; }
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+
+.p-0 { padding: 0; }
+.p-1 { padding: var(--spacing-xs); }
+.p-2 { padding: var(--spacing-sm); }
+.p-3 { padding: var(--spacing-md); }
+.p-4 { padding: var(--spacing-lg); }
+
+/* Display utilities */
+.d-flex { display: flex; }
+.d-grid { display: grid; }
+.d-block { display: block; }
+.d-none { display: none; }
+
+.flex-column { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.align-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+
+/* Grid utilities */
+.grid-auto-fit { 
+	display: grid; 
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+	gap: var(--spacing-lg);
+}
+
+/* Border utilities */
+.border-radius { border-radius: var(--border-radius-md); }
+.border-radius-lg { border-radius: var(--border-radius-lg); }
+
+/* Background utilities */
+.bg-overlay { background: var(--overlay-bg); }
+.bg-overlay-hover:hover { background: var(--overlay-bg-hover); }
+
+/* Position utilities */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+
+/* Size utilities */
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.max-w-full { max-width: 100%; }
+
+/* Transition utilities */
+.transition { transition: all var(--transition-normal); }
+.transition-fast { transition: all var(--transition-fast); }
+
+/* State utilities */
+.opacity-50 { opacity: 0.5; }
+.opacity-70 { opacity: 0.7; }
+
+.hover-scale:hover { transform: scale(1.05); }
+.hover-lift:hover { transform: translateY(-2px); }
+
+/* Responsive utilities */
+@media (max-width: 768px) {
+	.mobile-hidden { display: none; }
+	.mobile-flex { display: flex; }
+	.mobile-block { display: block; }
+	.mobile-full { width: 100%; }
+}
