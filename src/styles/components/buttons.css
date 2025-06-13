@@ -79,6 +79,31 @@ button:focus-visible,
 	background: #ff6666;
 }
 
+/* Disabled button */
+.btn-disabled,
+button:disabled,
+.btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+	background: #555 !important;
+	color: #999 !important;
+	border-color: #555 !important;
+	transform: none !important;
+	box-shadow: none !important;
+}
+
+.btn-disabled:hover,
+button:disabled:hover,
+.btn:disabled:hover {
+	opacity: 0.5;
+	cursor: not-allowed;
+	background: #555 !important;
+	color: #999 !important;
+	border-color: #555 !important;
+	transform: none !important;
+	box-shadow: none !important;
+}
+
 /* Light theme button adjustments */
 @media (prefers-color-scheme: light) {
 	button,

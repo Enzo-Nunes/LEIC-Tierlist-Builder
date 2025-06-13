@@ -3,7 +3,7 @@
 		<div class="page-header">
 			<div class="header-content">
 				<h1>My Tierlists</h1>
-				<router-link to="/create" class="btn btn-primary"> ➕ Create New Tierlist </router-link>
+				<button @click="createNewTierlist" class="btn btn-primary">➕ Create New Tierlist</button>
 			</div>
 		</div>
 
@@ -12,7 +12,7 @@
 				<div class="empty-icon">📝</div>
 				<h3>No tierlists yet</h3>
 				<p>Create your first tierlist to get started!</p>
-				<router-link to="/create" class="btn btn-primary"> 🚀 Create Your First Tierlist </router-link>
+				<button @click="createNewTierlist" class="btn btn-primary">🚀 Create Your First Tierlist</button>
 			</div>
 
 			<div v-else class="table-container">
@@ -21,42 +21,37 @@
 						<tr>
 							<th>Title</th>
 							<th>Created</th>
-							<th>Tiers</th>
-							<th>Items</th>
 							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="tierlist in sortedTierlists" :key="tierlist.id" class="tierlist-row">
+						<tr
+							v-for="tierlist in sortedTierlists"
+							:key="tierlist.id"
+							class="tierlist-row clickable-row"
+							@click="editTierlist(tierlist)"
+						>
 							<td class="title-cell">
-								<button @click="viewTierlist(tierlist)" class="title-link">
-									{{ tierlist.title }}
-								</button>
+								{{ tierlist.title }}
 							</td>
 							<td class="date-cell">
 								{{ formatDate(tierlist.createdAt) }}
 							</td>
-							<td class="count-cell">
-								{{ tierlist.tiers.length }}
-							</td>
-							<td class="count-cell">
-								{{ getTotalItems(tierlist) }}
-							</td>
 							<td class="actions-cell">
+								<div v-if="confirmingDeleteId === tierlist.id" class="delete-confirmation">
+									<button @click.stop="cancelDelete()" class="btn btn-small btn-cancel-confirm">
+										Cancel
+									</button>
+									<button
+										@click.stop="confirmDelete(tierlist.id)"
+										class="btn btn-small btn-delete-confirm"
+									>
+										Delete
+									</button>
+								</div>
 								<button
-									@click="editTierlist(tierlist)"
-									class="btn btn-small btn-secondary"
-									title="Edit"
-								>
-									✏️
-								</button>
-								<button
-									@click="duplicateTierlist(tierlist)"
-									class="btn btn-small"
-									title="Duplicate"
-								></button>
-								<button
-									@click="deleteTierlist(tierlist.id)"
+									v-else
+									@click.stop="showDeleteConfirmation(tierlist.id)"
 									class="btn btn-small btn-danger"
 									title="Delete"
 								>
@@ -66,38 +61,6 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
-		</div>
-
-		<!-- Modal for viewing tierlist -->
-		<div v-if="selectedTierlist" class="modal-overlay" @click="closeModal">
-			<div class="modal-content" @click.stop>
-				<div class="modal-header">
-					<h2>{{ selectedTierlist.title }}</h2>
-					<button @click="closeModal" class="close-btn">❌</button>
-				</div>
-
-				<div class="modal-body">
-					<div class="tierlist-view">
-						<div v-for="tier in selectedTierlist.tiers" :key="tier.name" class="tier-row">
-							<div class="tier-label" :style="{ backgroundColor: tier.color }">
-								{{ tier.name }}
-							</div>
-							<div class="tier-items">
-								<div
-									v-for="item in tier.items"
-									:key="item.id"
-									class="tier-item"
-									:style="item.image ? { backgroundImage: `url(${item.image})` } : {}"
-									:class="{ 'text-item': !item.image }"
-									:title="item.name"
-								>
-									<span v-if="!item.image" class="text-content">{{ item.name }}</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -112,7 +75,7 @@ export default {
 	setup() {
 		const router = useRouter()
 		const tierlists = ref([])
-		const selectedTierlist = ref(null)
+		const confirmingDeleteId = ref(null)
 
 		const sortedTierlists = computed(() => {
 			return [...tierlists.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -135,47 +98,31 @@ export default {
 			})
 		}
 
-		const getTotalItems = (tierlist) => {
-			const tierItems = tierlist.tiers.reduce((total, tier) => total + tier.items.length, 0)
-			const poolItems = tierlist.poolItems ? tierlist.poolItems.length : 0
-			return tierItems + poolItems
-		}
-
-		const viewTierlist = (tierlist) => {
-			selectedTierlist.value = tierlist
-		}
-
-		const closeModal = () => {
-			selectedTierlist.value = null
-		}
-
 		const editTierlist = (tierlist) => {
-			// For now, just navigate to create page
-			// In the future, we could pass the tierlist data to edit
+			// Store the tierlist data in localStorage temporarily for editing
+			localStorage.setItem('editingTierlist', JSON.stringify(tierlist))
 			router.push('/create')
 		}
 
-		const duplicateTierlist = (tierlist) => {
-			const newTierlist = {
-				...tierlist,
-				id: Date.now(),
-				title: `${tierlist.title} (Copy)`,
-				createdAt: new Date().toISOString()
-			}
-
-			const savedLists = JSON.parse(localStorage.getItem('tierlists') || '[]')
-			savedLists.push(newTierlist)
-			localStorage.setItem('tierlists', JSON.stringify(savedLists))
-
-			tierlists.value.push(newTierlist)
+		const createNewTierlist = () => {
+			// Clear any existing editing data to ensure we create a new tierlist
+			localStorage.removeItem('editingTierlist')
+			router.push('/create')
 		}
 
-		const deleteTierlist = (id) => {
-			if (confirm('Are you sure you want to delete this tierlist?')) {
-				const savedLists = tierlists.value.filter((t) => t.id !== id)
-				localStorage.setItem('tierlists', JSON.stringify(savedLists))
-				tierlists.value = savedLists
-			}
+		const showDeleteConfirmation = (id) => {
+			confirmingDeleteId.value = id
+		}
+
+		const cancelDelete = () => {
+			confirmingDeleteId.value = null
+		}
+
+		const confirmDelete = (id) => {
+			const savedLists = tierlists.value.filter((t) => t.id !== id)
+			localStorage.setItem('tierlists', JSON.stringify(savedLists))
+			tierlists.value = savedLists
+			confirmingDeleteId.value = null
 		}
 
 		onMounted(() => {
@@ -185,19 +132,159 @@ export default {
 		return {
 			tierlists,
 			sortedTierlists,
-			selectedTierlist,
+			confirmingDeleteId,
 			formatDate,
-			getTotalItems,
-			viewTierlist,
-			closeModal,
 			editTierlist,
-			duplicateTierlist,
-			deleteTierlist
+			createNewTierlist,
+			showDeleteConfirmation,
+			cancelDelete,
+			confirmDelete
 		}
 	}
 }
 </script>
 
 <style scoped>
-/* All styles moved to src/styles/pages/home.css */
+/* Home Page Styles */
+.home {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: var(--spacing-lg);
+}
+
+/* Header section */
+.page-header {
+	margin-bottom: var(--spacing-lg);
+}
+
+.header-content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: var(--spacing-sm);
+}
+
+.header-content h1 {
+	color: var(--primary-color);
+	margin: 0;
+	font-size: 2.5rem;
+}
+
+/* Clickable row styling */
+.clickable-row {
+	cursor: pointer;
+	transition: background-color var(--transition-normal);
+	min-height: 80px;
+}
+
+.clickable-row:hover {
+	background-color: var(--overlay-bg-hover);
+}
+
+/* Ensure table rows maintain consistent height */
+.data-table tr {
+	min-height: 80px;
+}
+
+.data-table td {
+	vertical-align: middle;
+	min-height: 80px;
+}
+
+/* Table column alignment */
+.data-table th,
+.data-table td {
+	text-align: center;
+}
+
+/* Override specific cell alignments */
+.title-cell {
+	text-align: center;
+}
+
+.date-cell {
+	text-align: center;
+}
+
+.actions-cell {
+	text-align: center;
+}
+
+/* Center align action buttons */
+.actions-cell {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 180px;
+}
+
+/* Delete confirmation dialog */
+.delete-confirmation {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	min-width: 120px;
+}
+
+.btn-delete-confirm {
+	background: #dc3545;
+	border-color: #dc3545;
+	color: white;
+	font-size: 0.75rem;
+	padding: 0.25rem 0.5rem;
+}
+
+.btn-delete-confirm:hover {
+	background: #c82333;
+	border-color: #bd2130;
+}
+
+.btn-cancel-confirm {
+	background: #28a745;
+	border-color: #28a745;
+	color: white;
+	font-size: 0.75rem;
+	padding: 0.25rem 0.5rem;
+}
+
+.btn-cancel-confirm:hover {
+	background: #218838;
+	border-color: #1e7e34;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+	.header-content {
+		flex-direction: column;
+		align-items: stretch;
+		text-align: center;
+	}
+
+	.header-content h1 {
+		font-size: 2rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.home {
+		padding: var(--spacing-sm);
+	}
+
+	.actions-cell .btn {
+		font-size: 0.8rem;
+		padding: 0.25rem 0.5rem;
+	}
+
+	.delete-confirmation {
+		min-width: 100px;
+		gap: 2px;
+	}
+
+	.btn-delete-confirm,
+	.btn-cancel-confirm {
+		font-size: 0.7rem;
+		padding: 0.2rem 0.4rem;
+	}
+}
 </style>

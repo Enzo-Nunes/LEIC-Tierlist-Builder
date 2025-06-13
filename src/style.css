@@ -10,10 +10,5 @@
 @import './styles/components/tables.css';
 @import './styles/components/cards.css';
 
-/* Page styles */
-@import './styles/pages/home.css';
-@import './styles/pages/create.css';
-@import './styles/pages/browse.css';
-
 /* Utilities */
 @import './styles/utilities.css';
