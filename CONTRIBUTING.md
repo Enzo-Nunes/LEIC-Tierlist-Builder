@@ -189,4 +189,4 @@ By contributing to this project, you agree that your contributions will be licen
 
 **Thank you for contributing to LEIC Tierlist Builder!** 🎓✨
 
-For questions, feel free to open an issue or reach out to me.
+For questions, feel free to reach out to me.
