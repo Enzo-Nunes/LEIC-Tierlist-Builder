@@ -29,14 +29,17 @@
 				<button @click="goBack" class="btn btn-outline back-button">← Back to Home</button>
 				<input v-model="tierlistTitle" placeholder="Enter your tierlist title here..." class="title-input" />
 				<div class="control-buttons">
-					<button
-						@click="saveTierlist"
-						:disabled="!tierlistTitle.trim()"
-						class="btn btn-primary"
-						:class="{ 'btn-disabled': !tierlistTitle.trim() }"
-					>
-						💾 Save Tierlist
-					</button>
+					<div class="save-button-container">
+						<button
+							@click="saveTierlist"
+							:disabled="!tierlistTitle.trim()"
+							class="btn btn-primary"
+							:class="{ 'btn-disabled': !tierlistTitle.trim() }"
+						>
+							💾 Save Tierlist
+						</button>
+						<div v-if="!tierlistTitle.trim()" class="tooltip">Enter a title to save your tierlist</div>
+					</div>
 					<div class="download-button-container">
 						<button
 							@click="downloadTierlist"
@@ -47,8 +50,12 @@
 						>
 							⬇️ Download Image
 						</button>
-						<div v-if="!canDownload && tierlistTitle.trim()" class="tooltip">
-							Save the tierlist first to download
+						<div v-if="!canDownload" class="tooltip">
+							{{
+								!tierlistTitle.trim()
+									? 'Enter a title and save to download'
+									: 'Save the tierlist first to download'
+							}}
 						</div>
 					</div>
 				</div>
@@ -898,6 +905,50 @@ export default {
 .tier-items.drag-over {
 	background: rgba(108, 117, 125, 0.1);
 	border-radius: 8px;
+}
+
+/* Save button container for tooltip positioning */
+.save-button-container {
+	position: relative;
+	display: inline-block;
+}
+
+.save-button-container .tooltip {
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	background: var(--surface-color);
+	color: var(--text-color);
+	padding: 8px 12px;
+	border-radius: 6px;
+	font-size: 0.85rem;
+	white-space: nowrap;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+	border: 1px solid var(--border-color);
+	margin-bottom: 5px;
+	z-index: 10;
+	opacity: 0;
+	visibility: hidden;
+	transition:
+		opacity 0.2s ease-out,
+		visibility 0.2s ease-out;
+}
+
+/* Show tooltip on hover when button is disabled */
+.save-button-container:hover .tooltip {
+	opacity: 1;
+	visibility: visible;
+}
+
+.save-button-container .tooltip::after {
+	content: '';
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	border: 5px solid transparent;
+	border-top-color: var(--surface-color);
 }
 
 /* Download button container for tooltip positioning */

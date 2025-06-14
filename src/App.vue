@@ -13,7 +13,7 @@
 				Made with ❤️ by Enzo
 				<br />
 				<a
-					href="https://github.com/Enzo-Nunes/LEIC-Tierlist"
+					href="https://github.com/Enzo-Nunes/LEIC-Tierlist-Builder"
 					target="_blank"
 					rel="noopener"
 					class="github-link"
