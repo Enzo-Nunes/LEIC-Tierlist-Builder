@@ -14,22 +14,22 @@ Thank you for your interest in contributing to the LEIC Tierlist Builder! This d
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
 
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/LEIC-Tierlist-Builder.git
-   cd LEIC-Tierlist-Builder
-   ```
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/LEIC-Tierlist-Builder.git
+    cd LEIC-Tierlist-Builder
+    ```
 
 3. **Install dependencies**:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 4. **Start the development server**:
 
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
 5. **Open the application** in your browser at `http://localhost:5173/LEIC-Tierlist-Builder/`
 
@@ -52,11 +52,15 @@ LEIC-Tierlist-Builder/
 └── vite.config.js      # Vite configuration
 ```
 
-### Available Scripts
+### Pre-commit Hooks
 
-- `npm run dev` - Start development server
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
+This project uses **Husky** and **lint-staged** to automatically run code quality checks before each commit:
+
+- **ESLint** checks and fixes code quality issues
+- **Prettier** formats code consistently
+- **Commits are blocked** if there are unfixable linting errors
+
+The hooks run automatically - no manual intervention needed!
 
 ### Code Style Guidelines
 
@@ -67,13 +71,6 @@ This project uses **ESLint** and **Prettier** for consistent code formatting:
 - **Semicolons**: Not required
 - **Line length**: Max 120 characters
 - **Component naming**: Use PascalCase for Vue components
-
-**Before committing**, always run:
-
-```bash
-npm run lint
-npm run format
-```
 
 ### Vue.js Specific Guidelines
 
@@ -137,10 +134,10 @@ When reporting bugs or requesting features:
 3. **Test thoroughly** and ensure code quality
 4. **Update documentation** if needed
 5. **Submit a pull request** with:
-   - Clear title and description
-   - Reference to related issues
-   - Screenshots for UI changes
-   - Testing notes
+    - Clear title and description
+    - Reference to related issues
+    - Screenshots for UI changes
+    - Testing notes
 
 ### Pull Request Checklist
 

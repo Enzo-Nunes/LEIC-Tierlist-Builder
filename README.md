@@ -6,33 +6,33 @@ A modern, interactive web application for creating and managing tierlists for LE
 
 ### Prerequisites
 
-- *Node.js* (version 16 or higher)
-- *npm* package manager
+- _Node.js_ (version 16 or higher)
+- _npm_ package manager
 
 ### Installation Steps
 
 1. **Clone the repository**
 
-   ```bash
-   git clone https://github.com/Enzo-Nunes/LEIC-Tierlist-Builder.git
-   cd LEIC-Tierlist
-   ```
+    ```bash
+    git clone https://github.com/Enzo-Nunes/LEIC-Tierlist-Builder.git
+    cd LEIC-Tierlist-Builder
+    ```
 
 2. **Install dependencies**
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 3. **Run development server**
 
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
 4. **Open in browser**
 
-   Navigate to `http://localhost:5173/LEIC-Tierlist-Builder/` to see the application running locally.
+    Navigate to `http://localhost:5173/LEIC-Tierlist-Builder/` to see the application running locally.
 
 ## 🤝 Contributing
 
@@ -58,4 +58,4 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
 
 ## Made with ❤️ for the LEIC community
 
-*Rank your courses, share your opinions, and see how your academic journey stacks up!*
+_Rank your courses, share your opinions, and see how your academic journey stacks up!_
