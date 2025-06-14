@@ -6,8 +6,8 @@ A modern, interactive web application for creating and managing tierlists for LE
 
 ### Prerequisites
 
-- `Node.js` (version 16 or higher)
-- `npm` package manager
+- *Node.js* (version 16 or higher)
+- *npm* package manager
 
 ### Installation Steps
 
@@ -32,7 +32,27 @@ A modern, interactive web application for creating and managing tierlists for LE
 
 4. **Open in browser**
 
-   Navigate to `http://localhost:5173/LEIC-Tierlist-Builder/` to see the application running.
+   Navigate to `http://localhost:5173/LEIC-Tierlist-Builder/` to see the application running locally.
+
+## 🤝 Contributing
+
+Contributions are always welcome. Whether you want to add new features, fix bugs, or improve documentation, your help is appreciated.
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
+
+- Setting up the development environment
+- Code style and conventions
+- How to submit pull requests
+- Reporting issues
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Vue.js 3 with Composition API
+- **Build Tool**: Vite
+- **Routing**: Vue Router 4
+- **State Management**: Pinia
+- **Code Quality**: ESLint + Prettier
+- **Deployment**: GitHub Pages
 
 ---
 

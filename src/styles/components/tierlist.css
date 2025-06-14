@@ -129,13 +129,13 @@
 	.tier-row {
 		flex-direction: column;
 	}
-	
+
 	.tier-label {
 		min-width: auto;
 		width: 100%;
 		min-height: 40px;
 	}
-	
+
 	.remove-tier-btn {
 		position: static;
 		transform: none;
