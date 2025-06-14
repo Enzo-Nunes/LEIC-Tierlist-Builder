@@ -26,7 +26,7 @@
 						<tr>
 							<th>Title</th>
 							<th>Created</th>
-							<th>Export</th>
+							<th>Download</th>
 							<th>Delete</th>
 						</tr>
 					</thead>
