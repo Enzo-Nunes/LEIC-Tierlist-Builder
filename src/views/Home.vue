@@ -1,5 +1,10 @@
 <template>
 	<div class="home">
+		<!-- Notification Toast -->
+		<div v-if="notification.show" class="notification-toast" :class="notification.type">
+			{{ notification.message }}
+		</div>
+
 		<div class="page-header">
 			<div class="header-content">
 				<h1>My Tierlists</h1>
@@ -21,7 +26,8 @@
 						<tr>
 							<th>Title</th>
 							<th>Created</th>
-							<th>Actions</th>
+							<th>Export</th>
+							<th>Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -37,7 +43,16 @@
 							<td class="date-cell">
 								{{ formatDate(tierlist.createdAt) }}
 							</td>
-							<td class="actions-cell">
+							<td class="export-cell">
+								<button
+									@click.stop="exportTierlist(tierlist)"
+									class="btn btn-small btn-secondary"
+									title="Download as Image"
+								>
+									⬇️
+								</button>
+							</td>
+							<td class="delete-cell">
 								<div v-if="confirmingDeleteId === tierlist.id" class="delete-confirmation">
 									<button @click.stop="cancelDelete()" class="btn btn-small btn-cancel-confirm">
 										Cancel
@@ -76,6 +91,22 @@ export default {
 		const router = useRouter()
 		const tierlists = ref([])
 		const confirmingDeleteId = ref(null)
+		const notification = ref({
+			show: false,
+			message: '',
+			type: 'success'
+		})
+
+		const showNotification = (message, type = 'success') => {
+			notification.value = {
+				show: true,
+				message,
+				type
+			}
+			setTimeout(() => {
+				notification.value.show = false
+			}, 3000)
+		}
 
 		const sortedTierlists = computed(() => {
 			return [...tierlists.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -117,14 +148,38 @@ export default {
 		const cancelDelete = () => {
 			confirmingDeleteId.value = null
 		}
-
 		const confirmDelete = (id) => {
 			const savedLists = tierlists.value.filter((t) => t.id !== id)
 			localStorage.setItem('tierlists', JSON.stringify(savedLists))
 			tierlists.value = savedLists
 			confirmingDeleteId.value = null
 		}
+		const exportTierlist = (tierlist) => {
+			try {
+				if (!tierlist.imageData) {
+					showNotification(
+						'No image data found for this tierlist. Please edit and save the tierlist to generate an image.',
+						'error'
+					)
+					return
+				}
 
+				// Create download link using stored image data
+				const link = document.createElement('a')
+				link.download = `${tierlist.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_tierlist.png`
+				link.href = tierlist.imageData
+
+				// Trigger download
+				document.body.appendChild(link)
+				link.click()
+				document.body.removeChild(link)
+
+				showNotification('Tierlist exported successfully! 📥')
+			} catch (error) {
+				console.error('Error exporting tierlist:', error)
+				showNotification('Sorry, there was an error exporting the tierlist. Please try again.', 'error')
+			}
+		}
 		onMounted(() => {
 			loadTierlists()
 		})
@@ -133,9 +188,11 @@ export default {
 			tierlists,
 			sortedTierlists,
 			confirmingDeleteId,
+			notification,
 			formatDate,
 			editTierlist,
 			createNewTierlist,
+			exportTierlist,
 			showDeleteConfirmation,
 			cancelDelete,
 			confirmDelete
@@ -192,6 +249,32 @@ export default {
 	min-height: 80px;
 }
 
+/* Table layout */
+.data-table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.data-table th:nth-child(1),
+.data-table td:nth-child(1) {
+	width: 40%;
+}
+
+.data-table th:nth-child(2),
+.data-table td:nth-child(2) {
+	width: 25%;
+}
+
+.data-table th:nth-child(3),
+.data-table td:nth-child(3) {
+	width: 15%;
+}
+
+.data-table th:nth-child(4),
+.data-table td:nth-child(4) {
+	width: 20%;
+}
+
 /* Table column alignment */
 .data-table th,
 .data-table td {
@@ -207,24 +290,27 @@ export default {
 	text-align: center;
 }
 
-.actions-cell {
+.export-cell,
+.delete-cell {
 	text-align: center;
 }
 
 /* Center align action buttons */
-.actions-cell {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-width: 180px;
+.export-cell,
+.delete-cell {
+	text-align: center;
+	vertical-align: middle;
+	min-width: 90px;
+	padding: 8px;
 }
 
 /* Delete confirmation dialog */
 .delete-confirmation {
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	gap: var(--spacing-xs);
 	min-width: 120px;
+	justify-content: center;
 }
 
 .btn-delete-confirm {
@@ -253,6 +339,44 @@ export default {
 	border-color: #1e7e34;
 }
 
+/* Notification Toast */
+.notification-toast {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	padding: 1rem 1.5rem;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+	z-index: 1000;
+	font-weight: 500;
+	animation: slideIn 0.3s ease-out;
+	max-width: 400px;
+	word-wrap: break-word;
+}
+
+.notification-toast.success {
+	background: #28a745;
+	color: white;
+	border: 1px solid #1e7e34;
+}
+
+.notification-toast.error {
+	background: #dc3545;
+	color: white;
+	border: 1px solid #bd2130;
+}
+
+@keyframes slideIn {
+	from {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
 	.header-content {
@@ -270,8 +394,8 @@ export default {
 	.home {
 		padding: var(--spacing-sm);
 	}
-
-	.actions-cell .btn {
+	.export-cell .btn,
+	.delete-cell .btn {
 		font-size: 0.8rem;
 		padding: 0.25rem 0.5rem;
 	}

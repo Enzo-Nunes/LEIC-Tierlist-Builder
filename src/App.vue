@@ -9,7 +9,18 @@
 		</main>
 
 		<footer class="footer">
-			<p>&copy; 2025 LEIC Tierlist. Made with ❤️ by Enzo.</p>
+			<p>
+				Made with ❤️ by Enzo
+				<br />
+				<a
+					href="https://github.com/Enzo-Nunes/LEIC-Tierlist"
+					target="_blank"
+					rel="noopener"
+					class="github-link"
+				>
+					⚙️ View Source on GitHub
+				</a>
+			</p>
 		</footer>
 	</div>
 </template>
@@ -36,6 +47,37 @@ export default {
 	margin: 0;
 	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 	letter-spacing: -0.02em;
+}
+
+.footer {
+	text-align: center;
+	padding: var(--spacing-lg) var(--spacing-md);
+	margin-top: var(--spacing-xl);
+	color: var(--text-secondary);
+	border-top: 1px solid var(--border-color);
+	background: var(--surface-color);
+}
+
+.footer p {
+	margin: 0;
+	line-height: 1.6;
+}
+
+.github-link {
+	color: var(--primary-color);
+	text-decoration: none;
+	font-weight: 500;
+	transition: all 0.2s ease;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	margin-top: 0.5rem;
+}
+
+.github-link:hover {
+	color: #747bff;
+	text-decoration: underline;
+	transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
