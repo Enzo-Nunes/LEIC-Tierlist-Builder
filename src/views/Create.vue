@@ -355,10 +355,16 @@ export default {
 			draggedItem.value = null
 			draggedFromTier.value = null
 		}
-
 		const onDropToPool = (event) => {
 			event.preventDefault()
 			if (!draggedItem.value) return
+
+			// If the item is already in the pool, don't do anything
+			if (draggedFromTier.value === 'pool') {
+				draggedItem.value = null
+				draggedFromTier.value = null
+				return
+			}
 
 			// Remove item from tier
 			if (typeof draggedFromTier.value === 'number') {
@@ -369,8 +375,12 @@ export default {
 				}
 			}
 
-			// Add back to pool
-			poolItems.push(draggedItem.value)
+			// Add back to pool only if it's not already there
+			const existingIndex = poolItems.findIndex((item) => item.id === draggedItem.value.id)
+			if (existingIndex === -1) {
+				poolItems.push(draggedItem.value)
+			}
+
 			draggedItem.value = null
 			draggedFromTier.value = null
 		}
