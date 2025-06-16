@@ -187,7 +187,7 @@ export default {
 			'IPM',
 			'BD',
 			'IA',
-			'PIC',
+			'PIC1',
 			'OC',
 			'Apre',
 			'AMS',
