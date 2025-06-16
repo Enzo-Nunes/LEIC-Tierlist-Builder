@@ -443,7 +443,6 @@ export default {
 				showNotification('Error saving tierlist. Please try again.', 'error')
 			}
 		}
-
 		const generateTierlistImage = async () => {
 			try {
 				// Dynamic import of html2canvas
@@ -454,7 +453,18 @@ export default {
 					throw new Error('Could not find tierlist to export')
 				}
 
-				// Configure html2canvas options with better compatibility
+				// Get the computed style to account for borders and padding
+				const style = window.getComputedStyle(element)
+				const borderTop = parseInt(style.borderTopWidth) || 0
+				const borderRight = parseInt(style.borderRightWidth) || 0
+				const borderBottom = parseInt(style.borderBottomWidth) || 0
+				const borderLeft = parseInt(style.borderLeftWidth) || 0
+
+				// Calculate total dimensions including borders
+				const totalWidth = element.offsetWidth
+				const totalHeight = element.offsetHeight
+
+				// Configure html2canvas options with better border handling
 				const canvas = await html2canvas(element, {
 					backgroundColor: '#242424',
 					scale: 1.5,
@@ -462,10 +472,15 @@ export default {
 					allowTaint: false,
 					foreignObjectRendering: false,
 					logging: false,
-					width: element.scrollWidth,
-					height: element.scrollHeight,
+					width: totalWidth,
+					height: totalHeight,
+					x: 0,
+					y: 0,
 					scrollX: 0,
-					scrollY: 0
+					scrollY: 0,
+					// Add some padding to ensure borders are fully captured
+					windowWidth: window.innerWidth,
+					windowHeight: window.innerHeight
 				})
 
 				return canvas.toDataURL('image/png', 0.95)
@@ -801,7 +816,10 @@ export default {
 	padding: 24px;
 	border-radius: 12px;
 	border: 2px solid #646cff;
-	margin-bottom: 24px;
+	margin: 24px auto;
+	box-sizing: border-box;
+	/* Ensure the element has enough space for borders */
+	position: relative;
 	font-family:
 		'Inter',
 		-apple-system,
